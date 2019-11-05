@@ -1,0 +1,26 @@
+def nthUglyNumber(self, n, a, b, c):
+    def gcd(n,m):
+        if m>n:
+            return gcd(m,n)
+        if m==0:
+            return n
+        return gcd(m,n%m)
+
+    lcm = lambda m,n : m*n//gcd(m,n)
+
+    ab = lcm(a,b)
+    ac = lcm(a,c)
+    bc = lcm(b,c)
+    abc = lcm(ab,c)
+    check = lambda k : k//a+k//b+k//c-k//ab-k//ac-k//bc+k//abc
+
+    lo, hi = 1, 2*10**9
+    while lo<hi:
+        mi = (lo+hi)//2
+        if check(mi)>n:
+            hi = mi-1
+        elif check(mi)<n:
+            lo = mi+1
+        else:
+            hi = mi
+    return lo
